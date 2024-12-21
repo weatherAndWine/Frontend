@@ -1,0 +1,44 @@
+/* WeatherWidget.css */
+.weather-widget {
+  background-color: #151723;
+  border-radius: 10px;
+
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+
+  text-align: center;
+  font-family: Arial, sans-serif;
+  margin: 30px;
+}
+
+.weather-date {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.weather-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.weather-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+}
+
+.weather-description {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.weather-temperature {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #007bff;
+}

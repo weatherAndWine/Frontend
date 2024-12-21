@@ -1,0 +1,60 @@
+/* 추천 항목들을 표 형태로 정렬 */
+.recommendIndex,
+.recommendItem {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr; /* 5개의 열 설정 */
+  gap: 20px; /* 각 항목 사이의 간격 (기존 15px에서 늘림) */
+  text-align: center;
+  padding: 15px 0; /* 항목 간의 위/아래 여백을 더 넓혀줌 */
+  border-top: 1px solid #ddd; /* 항목들 사이에 구분선 */
+}
+
+.recommendIndex {
+  border-top: 0;
+}
+
+/* 추천 항목들의 상단(헤더) 스타일 */
+.recommendIndex p {
+  font-weight: bold;
+  font-size: 16px;
+  padding-left: 30px;
+  padding-right: 30px;
+  color: white;
+  margin: 0; /* p 태그 기본 여백 제거 */
+}
+
+/* 추천 항목 스타일 */
+.recommendItem p {
+  font-size: 14px;
+  color: white;
+  margin: 0; /* p 태그 기본 여백 제거 */
+}
+
+/* 버튼을 같은 줄에 위치시키고, 버튼이 다른 항목들과 같은 행에 오도록 설정 */
+.recommendItem button {
+  background-color: #f5a623;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  grid-column: span 1; /* 버튼을 한 열에만 배치 */
+  align-self: center; /* 버튼을 세로 중앙에 정렬 */
+  justify-self: center; /* 버튼을 가로 중앙에 정렬 */
+  width: 100px; /* 버튼 고정 크기 */
+  margin-top: 0;
+}
+
+/* 버튼 호버 스타일 */
+.recommendItem button:hover {
+  background-color: #d48806;
+}
+
+/* 모바일 반응형 디자인 */
+@media (max-width: 768px) {
+  .recommendIndex,
+  .recommendItem {
+    grid-template-columns: 1fr 1fr; /* 2개의 열로 변경 */
+    gap: 10px; /* 모바일에서 항목 사이의 간격을 조금 더 좁힘 */
+  }
+}
