@@ -219,7 +219,7 @@ function RecommendItem({ item }) {
 function RecommendPage() {
   const location = useLocation();
   const weatherType = location.state?.weatherType;
-
+  //Mock 데이터 중 weather 타입이 일치하는 데이터만 넣음
   const [filteredData, setFilteredData] = useState(
     mockData.filter((item) => item.weather === weatherType)
   );
