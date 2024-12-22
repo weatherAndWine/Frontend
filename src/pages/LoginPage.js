@@ -12,8 +12,8 @@ function LoginPage() {
   const handleKakaoLogin = () => {
     window.location.href = kakaoURL; //kakaoURL로 이동
   };
-  console.log(K_REDIRECT_URI);
-  console.log(K_REST_API_KEY);
+  //console.log(K_REDIRECT_URI);
+  //console.log(K_REST_API_KEY);
   return (
     <div>
       <BodyPage>

@@ -41,8 +41,8 @@ function WeatherWidget() {
         borderRadius: "10px", // 모서리 둥글게
         padding: "10px",
         color: "white", // 텍스트 색상
-        height: "65px", // 위젯 높이
-        width: "350px", // 위젯 너비
+        height: "120px", // 위젯 높이
+        width: "550px", // 위젯 너비
         position: "relative", // 자식 요소 위치 지정 가능
       }}
     >
@@ -50,10 +50,10 @@ function WeatherWidget() {
       <p
         style={{
           position: "absolute",
-          top: "7px",
+          top: "15px",
           margin: "0px",
           right: "20px",
-          fontSize: "20px",
+          fontSize: "30px",
           fontWeight: "bold",
         }}
       >
@@ -66,7 +66,7 @@ function WeatherWidget() {
           position: "absolute",
           bottom: "10px",
           left: "20px",
-          fontSize: "35px",
+          fontSize: "50px",
           fontWeight: "bold",
           margin: "0px",
         }}
@@ -82,6 +82,7 @@ function WeatherWidget() {
           right: "20px",
           margin: "0px",
           fontWeight: "bold",
+          fontSize: "25px",
         }}
       >
         {fakeData.location}
