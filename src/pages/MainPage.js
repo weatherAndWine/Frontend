@@ -45,6 +45,23 @@ function MainPage() {
     return user.data;
   };
 
+  const saveUserData = async (userData) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/user",
+        userData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("User data saved:", response.data);
+    } catch (error) {
+      console.error("Error saving user data:", error);
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -52,8 +69,8 @@ function MainPage() {
       getUserData(token)
         .then((data) => {
           setUserInfo(data.properties);
-
-          console.log(data.properties.nickname);
+          saveUserData(data.properties);
+          console.log(data.properties.profile_nickname);
           console.log(userInfo);
           //console.log(data.properties.profile_image);
           localStorage.setItem(
