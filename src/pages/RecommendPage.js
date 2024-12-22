@@ -127,8 +127,6 @@ const Button = styled.button`
 `;
 
 function RecommendItem({ item }) {
-  const location = useLocation();
-  const weatherType = location.state?.weatherType;
   const [scrapped, setScrapped] = useState(false);
 
   useEffect(() => {
@@ -189,6 +187,9 @@ function RecommendItem({ item }) {
 }
 
 function RecommendPage() {
+  const location = useLocation();
+  const weatherType = location.state?.weatherType;
+
   const [filteredData, setFilteredData] = useState(mockData);
   const [sortOrder, setSortOrder] = useState({ type: "", direction: "asc" });
   const [filterType, setFilterType] = useState("");
@@ -227,6 +228,7 @@ function RecommendPage() {
   return (
     <>
       <Nav />
+
       <div
         style={{
           width: "100%",
