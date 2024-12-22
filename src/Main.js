@@ -5,11 +5,21 @@ import RecommendPage from "./pages/RecommendPage";
 import MyPage from "./pages/MyPage";
 import LoginRedirect from "./pages/LoginRedirect";
 import React, { useState } from "react";
+import { createGlobalStyle } from "styled-components";
 
 function Main() {
+  const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: #151723;
+    color: white;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+`;
   const [userInfo, setUserInfo] = useState(null);
   return (
     <BrowserRouter>
+      <GlobalStyle />
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/oauth" element={<LoginRedirect />} />

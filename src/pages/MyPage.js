@@ -2,7 +2,7 @@ import BodyPage from "../components/BodyPage";
 import Nav from "../components/Nav";
 
 function MyPage({ userInfo }) {
-  const likedItems = JSON.parse(localStorage.getItem("likedItems")) || [];
+  const likedItems = JSON.parse(localStorage.getItem("scrappedItems")) || [];
   console.log(likedItems);
   console.log(likedItems[0].name);
   return (
