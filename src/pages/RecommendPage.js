@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLocation } from "react";
 import Nav from "../components/Nav";
 import styled from "styled-components";
 import banner from "../img/recommend_banner.png";
@@ -126,6 +126,8 @@ const Button = styled.button`
 `;
 
 function RecommendItem({ item }) {
+  const location = useLocation();
+  const weatherType = location.state?.weatherType;
   const [scrapped, setScrapped] = useState(false);
 
   useEffect(() => {
