@@ -40,7 +40,7 @@ const StyledRecommend = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 2%;
-  background-color: #121212;
+  background-color: #151723;
   color: #ffffff;
   min-height: 100vh;
 `;
@@ -51,12 +51,12 @@ const StyledCard = styled.div`
   align-items: center;
   width: 90%;
   max-width: 800px;
-  background-color: #1f1f1f;
+  background-color: #ffffff;
   padding: 20px;
   margin: 10px 0;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  color: #ffffff;
+  color: #000000;
 `;
 
 const ProductImage = styled.img`
@@ -155,7 +155,9 @@ function RecommendItem({ item }) {
       <ProductImage src={item.image} alt={item.name} />
       <ProductInfo>
         <div style={{ flex: 1 }}>
-          <h3>{item.name}</h3>
+          <strong>
+            <h3>{item.name}</h3>
+          </strong>
           <p>{item.description}</p>
           <p>
             <div style={{ display: "flex", gap: "15px" }}>
