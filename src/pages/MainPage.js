@@ -76,8 +76,6 @@ function MainPage() {
       const token = localStorage.getItem("token");
       getUserData(token)
         .then((data) => {
-          setUserInfo(data.properties);
-
           console.log(data.properties.nickname);
           console.log(userInfo);
           //console.log(data.properties.profile_image);
@@ -85,6 +83,7 @@ function MainPage() {
             "profile-img",
             JSON.stringify(data.properties.profile_image)
           );
+          setUserInfo(data.properties);
         })
         .catch((err) => {
           console.log(err);
@@ -98,7 +97,7 @@ function MainPage() {
       <Nav />
       <BodyPage>
         <IntroText>
-          <p>당신의 취향과 오늘의 날씨를 고려하여</p>
+          <p>당신의 취향과 오늘의 날씨를 고려하여 </p>
           <p>가장 완벽한 와인 한 잔을 찾아보세요!</p>
           <p>
             웨더앤와인은 날씨 정보를 바탕으로 당신에게 딱 맞는 와인을 추천해
