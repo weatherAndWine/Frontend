@@ -4,7 +4,7 @@ import nav_logo from "../img/nav_logo.png";
 import non_profile from "../img/profile.png";
 function Nav() {
   const navigate = useNavigate();
-  const profile_img = JSON.parse(localStorage.getItem("profileimg"));
+  const profile_img = JSON.parse(localStorage.getItem("profile-img"));
   //console.log(`프로필 링크${profile_img}`);
   return (
     <div className="container">
