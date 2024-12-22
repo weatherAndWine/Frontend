@@ -108,6 +108,7 @@ function MainPage() {
             "profile-img",
             JSON.stringify(data.properties.profile_image)
           );
+          localStorage.setItem("username", data.properties.nickname);
           setUserInfo(data.properties);
         })
         .catch((err) => {

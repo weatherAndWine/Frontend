@@ -5,65 +5,10 @@ import styled from "styled-components";
 import banner from "../img/recommend_banner.png";
 import scrapB from "../img/scrap_button.png";
 import scrappedB from "../img/scrapped_button.png";
-
+import data from "../data.json";
 // 가짜 목업 데이터
 // 사진 URL 도 넘어와야함
-const mockData = [
-  {
-    wine_type: "화이트",
-    name: "모젤 크리스마스 리슬링",
-    degree: 13.0,
-    price: 55000,
-    aroma: "상큼한 사과와 배의 향",
-    image: "https://via.placeholder.com/80x120",
-    weather: 1, // 1: Clear (맑음)
-  },
-  {
-    wine_type: "스파클링",
-    name: "샴페인 모엣 & 샹동",
-    degree: 12.5,
-    price: 85000,
-    aroma: "신선한 과일과 꽃의 향",
-    image: "https://via.placeholder.com/80x120",
-    weather: 2, // 2: Clouds (흐림)
-  },
-  {
-    wine_type: "레드",
-    name: "샤또 마고",
-    degree: 14.0,
-    price: 320000,
-    aroma: "짙은 자두와 체리의 향",
-    image: "https://via.placeholder.com/80x120",
-    weather: 3, // 3: Rain (비)
-  },
-  {
-    wine_type: "로제",
-    name: "프로방스 로제",
-    degree: 11.5,
-    price: 45000,
-    aroma: "부드러운 딸기와 장미의 향",
-    image: "https://via.placeholder.com/80x120",
-    weather: 1, // 1: Clear (맑음)
-  },
-  {
-    wine_type: "디저트 와인",
-    name: "포르투 와인",
-    degree: 19.0,
-    price: 60000,
-    aroma: "건포도와 초콜릿의 깊은 향",
-    image: "https://via.placeholder.com/80x120",
-    weather: 4, // 4: Snow (눈)
-  },
-  {
-    wine_type: "화이트",
-    name: "샤블리",
-    degree: 12.0,
-    price: 70000,
-    aroma: "시트러스와 미네랄리티의 깔끔한 향",
-    image: "https://via.placeholder.com/80x120",
-    weather: 2, // 2: Clouds (흐림)
-  },
-];
+const winedata = data;
 
 // 스타일링된 컴포넌트
 const StyledRecommend = styled.div`
@@ -98,6 +43,7 @@ const ProductImage = styled.img`
 
 const ProductInfo = styled.div`
   flex: 1;
+  margin-right: 30px;
 `;
 
 const ScrapButton = styled.button`
@@ -221,7 +167,7 @@ function RecommendPage() {
   const weatherType = location.state?.weatherType;
   //Mock 데이터 중 weather 타입이 일치하는 데이터만 넣음
   const [filteredData, setFilteredData] = useState(
-    mockData.filter((item) => item.weather === weatherType)
+    winedata.filter((item) => item.weather === weatherType)
   );
   const [sortOrder, setSortOrder] = useState({ type: "", direction: "asc" });
   const [filterType, setFilterType] = useState("");
@@ -249,9 +195,9 @@ function RecommendPage() {
 
   const filterData = (type) => {
     if (type === "") {
-      setFilteredData(mockData);
+      setFilteredData(winedata);
     } else {
-      const filtered = mockData.filter((item) => item.type === type);
+      const filtered = winedata.filter((item) => item.type === type);
       setFilteredData(filtered);
     }
     setFilterType(type);

@@ -51,8 +51,9 @@ const StyledRecommend = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   padding: 2%;
+  padding-right: 20%;
+  padding-left: 20%;
   background-color: #151723;
   color: #ffffff;
   min-height: 100vh;
@@ -169,14 +170,14 @@ function RecommendItem({ item }) {
       <ProductInfo>
         <div style={{ flex: 1 }}>
           <h3>{item.name}</h3>
-          <p>{item.description}</p>
+          <p>{item.aroma}</p>
           <p>
             <div style={{ display: "flex", gap: "15px" }}>
               <span>
-                <strong>타입 |</strong> {item.type}
+                <strong>타입 |</strong> {item.wine_type}
               </span>
               <span>
-                <strong>도수 |</strong> {item.alcohol}%
+                <strong>도수 |</strong> {item.degree}%
               </span>
               <span>
                 <strong>가격 |</strong> {item.price.toLocaleString()}원
@@ -202,37 +203,22 @@ function MyPage({ userInfo }) {
   const likedItems = JSON.parse(localStorage.getItem("scrappedItems")) || [];
   console.log(likedItems);
   //console.log(likedItems[0].name);
+
+  const userName = localStorage.getItem("username");
   return (
     <>
       <Nav />
       <BodyPage>
         <Container>
           <Content>
-            <h1>{}ㅇㅇㅇ님, 안녕하세요!</h1>
+            <h1>{userName}님, 안녕하세요!</h1>
             <h3>
               나만의 특별한 와인 리스트를 만들고, 언제든지 다시 찾아보세요.
             </h3>
 
-            <span style={{ marginTop: 10, marginBottom: 10 }}></span>
-            {/*
-            <span
-              style={{
-                paddingBottom: 10,
-                borderBottom: "2px solid white",
-                fontWeight: "bold",
-              }}
-            >
-              스크랩 모음
-            </span>
-            */}
+            <span style={{ marginTop: 10, marginBottom: 5 }}></span>
           </Content>
         </Container>
-
-        {/*
-DB에 id:[1,2,3] 이런식으로 저장되어있음
-하나씩 map해서 주류 리스트에서 name, image, type, alcohol 등등 정보 가져와야함
-그걸 RecommendItem에 넘김
-*/}
 
         {likedItems.length > 0 ? (
           <StyledRecommend>
