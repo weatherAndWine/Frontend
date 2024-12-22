@@ -1,5 +1,5 @@
 import BodyPage from "../components/BodyPage";
-import kakaoImg from "../kakao_login_medium_narrow.png";
+import kakaoImg from "../img/kakao_login_medium_narrow.png";
 import { Link } from "react-router-dom";
 import logo from "../img/image.png";
 
