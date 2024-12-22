@@ -10,28 +10,58 @@ import scrappedB from "../img/scrapped_button.png";
 // 사진 URL 도 넘어와야함
 const mockData = [
   {
-    type: "화이트",
+    wine_type: "화이트",
     name: "모젤 크리스마스 리슬링",
-    alcohol: 13,
+    degree: 13.0,
     price: 55000,
-    image: "https://via.placeholder.com/80x120", // 사진 링크
-    description: "독일의 모젤 지역에서 재배된 리슬링 포도로 만든 와인입니다.",
+    aroma: "상큼한 사과와 배의 향",
+    image: "https://via.placeholder.com/80x120",
+    weather: 1, // 1: Clear (맑음)
   },
   {
-    type: "스파클링",
+    wine_type: "스파클링",
     name: "샴페인 모엣 & 샹동",
-    alcohol: 12.5,
+    degree: 12.5,
     price: 85000,
+    aroma: "신선한 과일과 꽃의 향",
     image: "https://via.placeholder.com/80x120",
-    description: "프랑스 상파뉴 지방에서 생산된 샴페인의 대명사입니다.",
+    weather: 2, // 2: Clouds (흐림)
   },
   {
-    type: "레드",
+    wine_type: "레드",
     name: "샤또 마고",
-    alcohol: 14,
+    degree: 14.0,
     price: 320000,
+    aroma: "짙은 자두와 체리의 향",
     image: "https://via.placeholder.com/80x120",
-    description: "프랑스 보르도 지역의 최고급 레드 와인 중 하나입니다.",
+    weather: 3, // 3: Rain (비)
+  },
+  {
+    wine_type: "로제",
+    name: "프로방스 로제",
+    degree: 11.5,
+    price: 45000,
+    aroma: "부드러운 딸기와 장미의 향",
+    image: "https://via.placeholder.com/80x120",
+    weather: 1, // 1: Clear (맑음)
+  },
+  {
+    wine_type: "디저트 와인",
+    name: "포르투 와인",
+    degree: 19.0,
+    price: 60000,
+    aroma: "건포도와 초콜릿의 깊은 향",
+    image: "https://via.placeholder.com/80x120",
+    weather: 4, // 4: Snow (눈)
+  },
+  {
+    wine_type: "화이트",
+    name: "샤블리",
+    degree: 12.0,
+    price: 70000,
+    aroma: "시트러스와 미네랄리티의 깔끔한 향",
+    image: "https://via.placeholder.com/80x120",
+    weather: 2, // 2: Clouds (흐림)
   },
 ];
 
@@ -159,14 +189,14 @@ function RecommendItem({ item }) {
           <strong>
             <h3>{item.name}</h3>
           </strong>
-          <p>{item.description}</p>
+          <p>{item.aroma}</p>
           <p>
             <div style={{ display: "flex", gap: "15px" }}>
               <span>
-                <strong>타입 |</strong> {item.type}
+                <strong>타입 |</strong> {item.wine_type}
               </span>
               <span>
-                <strong>도수 |</strong> {item.alcohol}%
+                <strong>도수 |</strong> {item.degree}%
               </span>
               <span>
                 <strong>가격 |</strong> {item.price.toLocaleString()}원
@@ -190,7 +220,9 @@ function RecommendPage() {
   const location = useLocation();
   const weatherType = location.state?.weatherType;
 
-  const [filteredData, setFilteredData] = useState(mockData);
+  const [filteredData, setFilteredData] = useState(
+    mockData.filter((item) => item.weather === weatherType)
+  );
   const [sortOrder, setSortOrder] = useState({ type: "", direction: "asc" });
   const [filterType, setFilterType] = useState("");
 
