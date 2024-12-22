@@ -4,6 +4,7 @@ import Nav from "../components/Nav";
 import styled from "styled-components";
 import scrapB from "../img/scrap_button.png";
 import scrappedB from "../img/scrapped_button.png";
+import axios from "axios";
 
 const mockData = [
   {
@@ -196,43 +197,43 @@ function RecommendItem({ item }) {
   );
 }
 
-function MyPage({ userInfo }) {
-  const [filteredData, setFilteredData] = useState(mockData);
+function MyPage() {
+  const [userData, setUserData] = useState(null);
+  const [likedItems, setLikedItems] = useState([]);
 
-  const likedItems = JSON.parse(localStorage.getItem("scrappedItems")) || [];
-  console.log(likedItems);
-  //console.log(likedItems[0].name);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const nickname = localStorage.getItem("nickname");
+        // nickname 값이 없을 경우 처리
+        if (!nickname) {
+          console.error("User nickname is not set in localStorage.");
+          return;
+        }
+        // JSON 파싱 추가
+        const response = await axios.get(`/api/mypage?nickname=${nickname}`);
+        setUserData(response.data.user);
+        setLikedItems(response.data.likedAlcohols);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+  const nickname = localStorage.getItem("nickname");
   return (
     <>
       <Nav />
       <BodyPage>
         <Container>
           <Content>
-            <h1>{}ㅇㅇㅇ님, 안녕하세요!</h1>
+            <h1>{nickname}님, 안녕하세요!</h1>
             <h3>
               나만의 특별한 와인 리스트를 만들고, 언제든지 다시 찾아보세요.
             </h3>
-
-            <span style={{ marginTop: 10, marginBottom: 10 }}></span>
-            {/*
-            <span
-              style={{
-                paddingBottom: 10,
-                borderBottom: "2px solid white",
-                fontWeight: "bold",
-              }}
-            >
-              스크랩 모음
-            </span>
-            */}
           </Content>
         </Container>
-
-        {/*
-DB에 id:[1,2,3] 이런식으로 저장되어있음
-하나씩 map해서 주류 리스트에서 name, image, type, alcohol 등등 정보 가져와야함
-그걸 RecommendItem에 넘김
-*/}
 
         {likedItems.length > 0 ? (
           <StyledRecommend>

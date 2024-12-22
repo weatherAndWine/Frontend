@@ -82,6 +82,18 @@ function MainPage() {
     setWeatherCode(cod);
   };
 
+  const saveUserToBackend = async (userData) => {
+    try {
+      const response = await axios.post("/api/user", {
+        name: userData.properties.nickname,
+        profile_image: userData.properties.profile_image,
+      });
+      console.log("User data saved:", response.data);
+    } catch (error) {
+      console.error("Error saving user data:", error);
+    }
+  };
+
   const getUserData = async (token) => {
     const user = await axios.get(`https://kapi.kakao.com/v2/user/me`, {
       headers: {
@@ -104,11 +116,15 @@ function MainPage() {
           {
             /* 로컬스토리지 -> DB에 id, 스크랩  */
           }
+          localStorage.setItem("nickname", data.properties.nickname);
           localStorage.setItem(
             "profile-img",
             JSON.stringify(data.properties.profile_image)
           );
           setUserInfo(data.properties);
+
+          // Save user data to backend
+          saveUserToBackend(data);
         })
         .catch((err) => {
           console.log(err);
