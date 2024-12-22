@@ -177,10 +177,10 @@ function RecommendPage() {
     const order = sortOrder.direction === "asc" ? 1 : -1;
 
     sorted.sort((a, b) => {
-      if (key === "price" || key === "alcohol") {
+      if (key === "price" || key === "degree") {
         return (a[key] - b[key]) * order;
       }
-      if (key === "type" || key === "name") {
+      if (key === "wine_type" || key === "name") {
         return a[key].localeCompare(b[key]) * order;
       }
       return 0;
@@ -197,7 +197,7 @@ function RecommendPage() {
     if (type === "") {
       setFilteredData(winedata);
     } else {
-      const filtered = winedata.filter((item) => item.type === type);
+      const filtered = winedata.filter((item) => item.wine_type === type);
       setFilteredData(filtered);
     }
     setFilterType(type);
@@ -238,9 +238,9 @@ function RecommendPage() {
             <option value="레드">레드</option>
             <option value="주정강화">주정강화</option>
           </Select>
-          <Button onClick={() => sortData("alcohol")}>
+          <Button onClick={() => sortData("degree")}>
             도수{" "}
-            {sortOrder.type === "alcohol"
+            {sortOrder.type === "degree"
               ? sortOrder.direction === "asc"
                 ? "↑"
                 : "↓"
