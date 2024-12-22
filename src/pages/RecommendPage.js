@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useLocation } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Nav from "../components/Nav";
 import styled from "styled-components";
 import banner from "../img/recommend_banner.png";
