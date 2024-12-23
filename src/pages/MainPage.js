@@ -55,9 +55,44 @@ const ButtonContainer = styled.div`
   }
 `;
 
+const mapWeatherType = (weatherCode) => {
+  if (weatherCode >= 200 && weatherCode < 300) {
+    return 3; // 비 (뇌우)
+  } else if (weatherCode >= 300 && weatherCode < 400) {
+    return 3; // 비 (이슬비)
+  } else if (weatherCode >= 500 && weatherCode < 600) {
+    return 3; // 비
+  } else if (weatherCode >= 600 && weatherCode < 700) {
+    return 4; // 눈
+  } else if (weatherCode === 800) {
+    return 1; // 맑음
+  } else if (weatherCode > 800 && weatherCode < 900) {
+    return 2; // 구름
+  } else {
+    return 0; // 알 수 없음
+  }
+};
+
 function MainPage() {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
+  const [weatherCode, setWeatherCode] = useState(null);
+
+  const handleCodUpdate = (cod) => {
+    setWeatherCode(cod);
+  };
+
+  const saveUserToBackend = async (userData) => {
+    try {
+      const response = await axios.post("/api/user", {
+        name: userData.properties.nickname,
+        profile_image: userData.properties.profile_image,
+      });
+      console.log("User data saved:", response.data);
+    } catch (error) {
+      console.error("Error saving user data:", error);
+    }
+  };
 
   const getUserData = async (token) => {
     const user = await axios.get(`https://kapi.kakao.com/v2/user/me`, {
@@ -66,7 +101,7 @@ function MainPage() {
         "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
       },
     });
-    console.log(user);
+    //console.log(user);
     return user.data;
   };
 
@@ -78,12 +113,18 @@ function MainPage() {
         .then((data) => {
           console.log(data.properties.nickname);
           console.log(userInfo);
-          //console.log(data.properties.profile_image);
+          {
+            /* 로컬스토리지 -> DB에 id, 스크랩  */
+          }
+          localStorage.setItem("nickname", data.properties.nickname);
           localStorage.setItem(
             "profile-img",
             JSON.stringify(data.properties.profile_image)
           );
           setUserInfo(data.properties);
+
+          // Save user data to backend
+          saveUserToBackend(data);
         })
         .catch((err) => {
           console.log(err);
@@ -91,10 +132,12 @@ function MainPage() {
         });
     }
   }, []);
+
   const profile_img = localStorage.getItem("profile-img");
   return (
     <>
       <Nav />
+
       <BodyPage>
         <IntroText>
           <p>당신의 취향과 오늘의 날씨를 고려하여 </p>
@@ -105,11 +148,18 @@ function MainPage() {
           </p>
         </IntroText>
 
-        <Weather />
+        <Weather onCodUpdate={handleCodUpdate} />
         <ButtonContainer
           style={{ display: "flex", gap: "65px", alignItems: "center" }}
         >
-          <img src={recommend_button} onClick={() => navigate("/recommend")} />
+          <img
+            src={recommend_button}
+            onClick={() =>
+              navigate("/recommend", {
+                state: { weatherType: mapWeatherType(weatherCode) },
+              })
+            }
+          />
           <img src={scrap_img} onClick={() => navigate("/mypage")} />
         </ButtonContainer>
         {/* 오늘 날씨정보 버튼에 전달 */}

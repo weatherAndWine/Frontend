@@ -1,20 +1,68 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Nav from "../components/Nav";
-import "./RecommendPage.css";
-import "../GlobalStyle.css";
 import styled from "styled-components";
+import banner from "../img/recommend_banner.png";
+import scrapB from "../img/scrap_button.png";
+import scrappedB from "../img/scrapped_button.png";
 
 // 가짜 목업 데이터
+// 사진 URL 도 넘어와야함
 const mockData = [
-  { type: "소주", name: "참이슬", alcohol: 19, price: 1200 },
-  { type: "맥주", name: "하이네켄", alcohol: 5, price: 3500 },
-  { type: "와인", name: "샤또마르고", alcohol: 12, price: 75000 },
-  { type: "소주", name: "진로", alcohol: 18, price: 1500 },
-  { type: "맥주", name: "기린", alcohol: 5, price: 3000 },
-  { type: "와인", name: "페트리", alcohol: 13, price: 45000 },
-  { type: "소주", name: "대장", alcohol: 20, price: 1300 },
-  { type: "와인", name: "보르도", alcohol: 14, price: 55000 },
-  { type: "맥주", name: "버드와이저", alcohol: 5, price: 3200 },
+  {
+    wine_type: "화이트",
+    name: "모젤 크리스마스 리슬링",
+    degree: 13.0,
+    price: 55000,
+    aroma: "상큼한 사과와 배의 향",
+    image: "https://via.placeholder.com/80x120",
+    weather: 1, // 1: Clear (맑음)
+  },
+  {
+    wine_type: "스파클링",
+    name: "샴페인 모엣 & 샹동",
+    degree: 12.5,
+    price: 85000,
+    aroma: "신선한 과일과 꽃의 향",
+    image: "https://via.placeholder.com/80x120",
+    weather: 2, // 2: Clouds (흐림)
+  },
+  {
+    wine_type: "레드",
+    name: "샤또 마고",
+    degree: 14.0,
+    price: 320000,
+    aroma: "짙은 자두와 체리의 향",
+    image: "https://via.placeholder.com/80x120",
+    weather: 3, // 3: Rain (비)
+  },
+  {
+    wine_type: "로제",
+    name: "프로방스 로제",
+    degree: 11.5,
+    price: 45000,
+    aroma: "부드러운 딸기와 장미의 향",
+    image: "https://via.placeholder.com/80x120",
+    weather: 1, // 1: Clear (맑음)
+  },
+  {
+    wine_type: "디저트 와인",
+    name: "포르투 와인",
+    degree: 19.0,
+    price: 60000,
+    aroma: "건포도와 초콜릿의 깊은 향",
+    image: "https://via.placeholder.com/80x120",
+    weather: 4, // 4: Snow (눈)
+  },
+  {
+    wine_type: "화이트",
+    name: "샤블리",
+    degree: 12.0,
+    price: 70000,
+    aroma: "시트러스와 미네랄리티의 깔끔한 향",
+    image: "https://via.placeholder.com/80x120",
+    weather: 2, // 2: Clouds (흐림)
+  },
 ];
 
 // 스타일링된 컴포넌트
@@ -22,8 +70,71 @@ const StyledRecommend = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10%;
+  padding: 2%;
+  background-color: #151723;
+  color: #ffffff;
   min-height: 100vh;
+`;
+
+const StyledCard = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  max-width: 800px;
+  background-color: #ffffff;
+  padding: 20px;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  color: #000000;
+`;
+
+const ProductImage = styled.img`
+  width: 80px;
+  height: auto;
+  margin-right: 20px;
+`;
+
+const ProductInfo = styled.div`
+  flex: 1;
+`;
+
+const ScrapButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: ${(props) => (props.scrapped ? "#f39c12" : "#7f8c8d")};
+  &:hover {
+    color: #f1c40f;
+  }
+`;
+
+const Controls = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  gap: 10px;
+`;
+
+const Select = styled.select`
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  color: #333;
+  cursor: pointer;
+  background-color: #fff;
+
+  &:hover {
+    border-color: #cf2a2b;
+  }
+  &:focus {
+    outline: none;
+    border-color: #cf2a2b;
+  }
 `;
 
 const Button = styled.button`
@@ -31,10 +142,9 @@ const Button = styled.button`
   color: white;
   border: none;
   padding: 8px 16px;
-  margin: 5px;
-  cursor: pointer;
   border-radius: 5px;
   font-size: 14px;
+  cursor: pointer;
 
   &:hover {
     background-color: #ee605d;
@@ -42,91 +152,82 @@ const Button = styled.button`
 
   &:disabled {
     background-color: #ccc;
+    cursor: not-allowed;
   }
 `;
-
-const Select = styled.select`
-  padding: 12px 20px;
-  margin: 5px;
-  font-size: 14px;
-  border-radius: 8px;
-  border: 2px solid #ddd;
-
-  color: #333;
-  cursor: pointer;
-  width: 100px;
-  transition: all 0.3s ease;
-
-  &:hover {
-    border-color: #cf2a2b;
-  }
-
-  &:focus {
-    outline: none;
-    border-color: #cf2a2b;
-    background-color: #fff;
-  }
-
-  option {
-    padding: 10px;
-  }
-`;
-
-function RecommendIndex() {
-  return (
-    <div className="recommendIndex">
-      <p>주종</p>
-      <p>이름</p>
-      <p>도수</p>
-      <p>가격</p>
-    </div>
-  );
-}
 
 function RecommendItem({ item }) {
-  const [liked, setLiked] = useState(false);
+  const [scrapped, setScrapped] = useState(false);
 
   useEffect(() => {
-    const likedItems = JSON.parse(localStorage.getItem("likedItems")) || [];
-    const isLiked = likedItems.some(
-      (likedItem) => likedItem.name === item.name
+    const scrappedItems =
+      JSON.parse(localStorage.getItem("scrappedItems")) || [];
+    const isScrapped = scrappedItems.some(
+      (scrappedItem) => scrappedItem.name === item.name
     );
-    setLiked(isLiked);
+    setScrapped(isScrapped);
   }, [item.name]);
 
-  const handleLike = () => {
-    // 좋아요 목록 가져오기
-    const likedItems = JSON.parse(localStorage.getItem("likedItems")) || [];
-    // 새로운 항목 추가
-    likedItems.push(item);
-    // 로컬 스토리지에 저장
-    localStorage.setItem("likedItems", JSON.stringify(likedItems));
-    // 버튼 비활성화
-    setLiked(true);
+  const handleScrap = () => {
+    let scrappedItems = JSON.parse(localStorage.getItem("scrappedItems")) || [];
+    if (scrapped) {
+      scrappedItems = scrappedItems.filter(
+        (scrappedItem) => scrappedItem.name !== item.name
+      );
+    } else {
+      scrappedItems.push(item);
+    }
+    localStorage.setItem("scrappedItems", JSON.stringify(scrappedItems));
+    setScrapped(!scrapped);
   };
+
   return (
-    <div className="recommendItem">
-      <p>{item.type}</p>
-      <p>{item.name}</p>
-      <p>{item.alcohol}</p>
-      <p>{item.price} 원</p>
-      <p>
-        <Button onClick={handleLike} disabled={liked}>
-          {liked ? "🩶" : "❤️"}
-        </Button>
-      </p>
-    </div>
+    <StyledCard>
+      <ProductImage src={item.image} alt={item.name} />
+      <ProductInfo>
+        <div style={{ flex: 1 }}>
+          <strong>
+            <h3>{item.name}</h3>
+          </strong>
+          <p>{item.aroma}</p>
+          <p>
+            <div style={{ display: "flex", gap: "15px" }}>
+              <span>
+                <strong>타입 |</strong> {item.wine_type}
+              </span>
+              <span>
+                <strong>도수 |</strong> {item.degree}%
+              </span>
+              <span>
+                <strong>가격 |</strong> {item.price.toLocaleString()}원
+              </span>
+            </div>
+          </p>
+        </div>
+      </ProductInfo>
+      <ScrapButton onClick={handleScrap} scrapped={scrapped}>
+        {scrapped ? (
+          <img src={scrappedB} style={{ width: "20px", height: "25px" }} />
+        ) : (
+          <img src={scrapB} style={{ width: "20px", height: "20px" }} />
+        )}
+      </ScrapButton>
+    </StyledCard>
   );
 }
 
 function RecommendPage() {
-  const [sortedData, setSortedData] = useState(mockData);
+  const location = useLocation();
+  const weatherType = location.state?.weatherType;
+  //Mock 데이터 중 weather 타입이 일치하는 데이터만 넣음
+  const [filteredData, setFilteredData] = useState(
+    mockData.filter((item) => item.weather === weatherType)
+  );
   const [sortOrder, setSortOrder] = useState({ type: "", direction: "asc" });
   const [filterType, setFilterType] = useState("");
 
-  // 정렬 함수
   const sortData = (key) => {
-    const sorted = [...sortedData];
+    const sorted = [...filteredData];
     const order = sortOrder.direction === "asc" ? 1 : -1;
 
     sorted.sort((a, b) => {
@@ -139,20 +240,19 @@ function RecommendPage() {
       return 0;
     });
 
-    setSortedData(sorted);
+    setFilteredData(sorted);
     setSortOrder({
       type: key,
       direction: sortOrder.direction === "asc" ? "desc" : "asc",
     });
   };
 
-  // 필터링 함수
   const filterData = (type) => {
     if (type === "") {
-      setSortedData(mockData);
+      setFilteredData(mockData);
     } else {
       const filtered = mockData.filter((item) => item.type === type);
-      setSortedData(filtered);
+      setFilteredData(filtered);
     }
     setFilterType(type);
   };
@@ -160,31 +260,38 @@ function RecommendPage() {
   return (
     <>
       <Nav />
+
+      <div
+        style={{
+          width: "100%",
+          height: "auto",
+          backgroundColor: "#ffffff",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img
+          src={banner}
+          style={{
+            width: "70%",
+            height: "auto",
+            objectFit: "contain",
+          }}
+        />
+      </div>
       <StyledRecommend>
-        <p>오늘의 날씨에 따른 추천 결과입니다.</p>
-
-        {/* 필터링: 주종 선택 */}
-
-        {/* 정렬 버튼들 */}
-        <div>
+        <Controls>
           <Select
             value={filterType}
             onChange={(e) => filterData(e.target.value)}
           >
             <option value="">전체</option>
-            <option value="소주">소주</option>
-            <option value="맥주">맥주</option>
-            <option value="와인">와인</option>
+            <option value="화이트">화이트</option>
+            <option value="스파클링">스파클링</option>
+            <option value="레드">레드</option>
+            <option value="주정강화">주정강화</option>
           </Select>
-
-          <Button onClick={() => sortData("name")}>
-            이름{" "}
-            {sortOrder.type === "name"
-              ? sortOrder.direction === "asc"
-                ? "↑"
-                : "↓"
-              : ""}
-          </Button>
           <Button onClick={() => sortData("alcohol")}>
             도수{" "}
             {sortOrder.type === "alcohol"
@@ -201,10 +308,8 @@ function RecommendPage() {
                 : "↓"
               : ""}
           </Button>
-        </div>
-        <RecommendIndex />
-        {/* 데이터 출력 */}
-        {sortedData.map((item, index) => (
+        </Controls>
+        {filteredData.map((item, index) => (
           <RecommendItem key={index} item={item} />
         ))}
       </StyledRecommend>
