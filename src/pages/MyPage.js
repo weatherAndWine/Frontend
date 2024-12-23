@@ -68,6 +68,7 @@ const StyledCard = styled.div`
   background-color: #ffffff;
   padding: 20px;
   margin: 5px 0;
+
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   color: #000000;
@@ -81,6 +82,7 @@ const ProductImage = styled.img`
 
 const ProductInfo = styled.div`
   flex: 1;
+  margin-right: 20px;
 `;
 
 const ScrapButton = styled.button`

@@ -150,14 +150,14 @@ function Weather({ onCodUpdate }) {
           margin: "0px",
         }}
       >
-        {weather.temp}
+        {`${weather.temp}°c`}
       </p>
 
       {/* 위치 */}
       <p
         style={{
           position: "absolute",
-          bottom: "10px",
+          bottom: "20px",
           right: "20px",
           margin: "0px",
           fontWeight: "bold",

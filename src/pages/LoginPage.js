@@ -2,6 +2,7 @@ import BodyPage from "../components/BodyPage";
 import kakaoImg from "../img/kakao_login_medium_narrow.png";
 import { Link } from "react-router-dom";
 import logo from "../img/image.png";
+import toplogo from "../img/toplogo.png";
 
 const K_REST_API_KEY = process.env.REACT_APP_K_REST_API_KEY;
 const K_REDIRECT_URI = process.env.REACT_APP_K_REDIRECT_URI;
@@ -17,6 +18,7 @@ function LoginPage() {
   return (
     <div>
       <BodyPage>
+        <img src={toplogo} style={{ marginTop: 100 }} />
         <img src={logo} />
         <Link>
           <img
